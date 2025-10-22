@@ -151,7 +151,7 @@ const Home = ({
                   <div className="rounded">
                     <div className="row">
                       {sortPostByDate.slice(0, showPosts).map((post) => (
-                        <div className="mb-3 md:col-3 px-6 pt-6" key={post.slug}>
+                        <div className="mb-3 md:col-3 md:px-6 md:pt-6" key={post.slug}>
                           <Post post={post} />
                         </div>
                       ))}

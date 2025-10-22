@@ -21,7 +21,7 @@ promotion:
   link: "#"
 
 recent_posts:
-  title: 主題動漫機箱設計
+  title: 主題機箱組合設計
   enable: true
 
 ---
