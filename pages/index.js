@@ -12,6 +12,9 @@ import { markdownify } from "@lib/utils/textConverter";
 import Link from "next/link";
 import { FaRegCalendar } from "react-icons/fa";
 const { blog_folder, pagination } = config.settings;
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "../lib/firebaseClient";
+import { useEffect, useState } from "react";
 
 const Home = ({
   banner,
@@ -27,6 +30,19 @@ const Home = ({
     (post) => post.frontmatter.featured
   );
   const showPosts = pagination;
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "group"), orderBy("priority", "desc"));
+      const querySnap = await getDocs(q);
+      const data = querySnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setItems(data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Base>
@@ -150,8 +166,8 @@ const Home = ({
                   <div style={{ height: 20 }} />
                   <div className="rounded">
                     <div className="row">
-                      {sortPostByDate.slice(0, showPosts).map((post) => (
-                        <div className="mb-3 md:col-3 md:px-6 md:pt-6" key={post.slug}>
+                      {items && items.slice(0, showPosts).map((post, i) => (
+                        <div key={i} className="mb-3 md:col-3 md:px-6 md:pt-6">
                           <Post post={post} />
                         </div>
                       ))}

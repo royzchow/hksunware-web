@@ -7,15 +7,15 @@ import { FaRegCalendar, FaUserAlt } from "react-icons/fa";
 const Post = ({ post }) => {
   const { summary_length, blog_folder } = config.settings;
   const { meta_author } = config.metadata;
-  const author = post.frontmatter.author ? post.frontmatter.author : meta_author;
+  // const author = post.frontmatter.author ? post.frontmatter.author : meta_author;
   return (
     <div className="post">
       <div className="relative">
-        {post.frontmatter.image && (
+        {post.image && (
           <ImageFallback
             className="rounded"
-            src={post.frontmatter.image}
-            alt={post.frontmatter.title}
+            src={post.image}
+            alt={post.name}
             width={405}
             height={208}
           />
