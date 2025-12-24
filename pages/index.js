@@ -35,19 +35,43 @@ const Home = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const q = query(collection(db, "group"), orderBy("priority", "desc"));
-      const querySnap = await getDocs(q);
-      const data = querySnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setItems(data);
+      const q = query(
+        collection(db, "group"),
+        orderBy("priority", "desc")
+      );
+
+      const groupSnap = await getDocs(q);
+
+      const groupsWithProducts = await Promise.all(
+        groupSnap.docs.map(async (groupDoc) => {
+          const productsSnap = await getDocs(
+            collection(db, "group", groupDoc.id, "products")
+          );
+
+          const products = productsSnap.docs.map(p => ({
+            id: p.id,
+            ...p.data()
+          }));
+
+          return {
+            id: groupDoc.id,
+            ...groupDoc.data(),
+            products, // 👈 products inside group
+          };
+        })
+      );
+
+      setItems(groupsWithProducts);
     };
 
     fetchData();
   }, []);
 
+
   return (
     <Base>
       {/* Banner */}
-      <section className="section banner relative pb-0">
+      <section className="section banner relative pb-0 pt-4 lg:pt-16">
         <ImageFallback
           className="absolute bottom-0 left-0 z-[-1] w-full"
           src={"/images/banner-bg-shape.svg"}
@@ -59,7 +83,11 @@ const Home = ({
 
         <div className="container">
           <div className="row flex-wrap-reverse items-center justify-center lg:flex-row">
-            <div className={banner.image_enable ? "mt-12 text-center lg:mt-0 lg:text-left lg:col-6" : "mt-12 text-center lg:mt-0 lg:text-left lg:col-12"}>
+            <div className={
+              banner.image_enable
+                ? "mt-6 lg:mt-12 text-center lg:text-left lg:col-6"
+                : "mt-6 lg:mt-12 text-center lg:text-left lg:col-12"
+            }>
               <div className="banner-title">
                 {markdownify(banner.title, "h1")}
                 {markdownify(banner.title_small, "span")}
@@ -67,7 +95,7 @@ const Home = ({
               {markdownify(banner.content, "p", "mt-4")}
               {banner.button.enable && (
                 <Link
-                  className="btn btn-primary mt-6"
+                  className="btn btn-primary mt-6 mb-6 lg:mb-0"
                   href={banner.button.link}
                   rel={banner.button.rel}
                 >
@@ -76,7 +104,7 @@ const Home = ({
               )}
             </div>
             {banner.image_enable && (
-              <div className="col-9 lg:col-6">
+              <div className="col-9 lg:col-6 mt-0 mb-0">
                 <ImageFallback
                   className="mx-auto object-contain"
                   src={banner.image}
@@ -167,8 +195,16 @@ const Home = ({
                   <div className="rounded">
                     <div className="row">
                       {items && items.slice(0, showPosts).map((post, i) => (
-                        <div key={i} className="mb-3 md:col-3 md:px-6 md:pt-6">
-                          <Post post={post} />
+                        <div key={i} className="mb-3 col-6 md:col-3 md:px-6 md:pt-6">
+                          <a
+                            href={`https://wa.me/85262911164?text=${encodeURIComponent(
+                              `你好，我想查詢：${post.name || "產品"}`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Post post={post} />
+                          </a>
                         </div>
                       ))}
                     </div>
