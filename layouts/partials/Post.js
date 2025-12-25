@@ -8,7 +8,6 @@ const Post = ({ post }) => {
   const { summary_length, blog_folder } = config.settings;
   const { meta_author } = config.metadata;
   // const author = post.frontmatter.author ? post.frontmatter.author : meta_author;
-  console.log(post)
   return (
     <div className="post">
       <div className="relative">

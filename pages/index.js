@@ -120,9 +120,9 @@ const Home = ({
       </section>
 
       {/* Home main */}
-      <section className="section pt-8 md:pt-6 lg:pt-12">
+      <section className="section pt-8 md:pt-6 lg:pt-12 pb-0 mb-0">
         <div className="container pl-4 md:pl-8 lg:pl-12 pr-4 md:pr-8 lg:pr-12">
-          <div className="row items-start">
+          <div className="row items-start ">
             <div className="mb-12 lg:mb-0 lg:col-12">
               {/* Featured posts */}
               {/* {featured_posts.enable && (
@@ -189,13 +189,13 @@ const Home = ({
 
               {/* Recent Posts */}
               {recent_posts.enable && (
-                <div className="section pt-0">
+                <div className="section pt-0 pb-0 mb-0">
                   <h1 className="mt-0 md:mt-6">{recent_posts.title}</h1>
                   <div style={{ height: 20 }} />
                   <div className="rounded">
                     <div className="row">
                       {items && items.slice(0, showPosts).map((post, i) => (
-                        <div key={i} className="mb-3 col-6 md:col-3 md:px-6 md:pt-6">
+                        <div key={i} className="mb-10 sm:mb-12 md:mb-4 lg:mb-6 xl:mb-10 col-6 md:col-3 md:px-6 md:pt-6">
                           <a
                             href={`https://wa.me/85262911164?text=${encodeURIComponent(
                               `你好，我想查詢：${post.name || "產品"}`

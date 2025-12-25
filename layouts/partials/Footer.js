@@ -10,7 +10,7 @@ import Link from "next/link";
 const Footer = () => {
   const { copyright, footer_content } = config.params;
   return (
-    <footer className="section relative mt-12 pt-[70px] pb-[50px]">
+    <footer className="section relative mt-0 sm:mt-0 md:mt-4 lg:mt-6 xl:mb-12  pt-[70px] pb-[50px]">
       <ImageFallback
         className="-z-[1] object-cover object-left  md:object-top"
         src="/images/footer-bg-shape.svg"

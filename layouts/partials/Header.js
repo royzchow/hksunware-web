@@ -30,7 +30,7 @@ const Header = () => {
   }, [showMenu]);
 
   return (
-    <header className="header">
+    <header className="header py-5 sm:py-6 md:py-8 px-4 sm:px-0 md:px-0">
       <nav className="navbar container px-1 sm:px-8">
         <div className="order-0">
           <Logo />
