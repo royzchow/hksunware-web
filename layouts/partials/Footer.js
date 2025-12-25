@@ -17,7 +17,7 @@ const Footer = () => {
         alt="footer background"
         fill={true}
       />
-      <div className="container text-center">
+      <div className="container text-center font-sans">
         <div className="mb-6 inline-flex">
           <Logo />
         </div>
