@@ -28,6 +28,9 @@ const Base = ({
           )}
         </title>
 
+        <meta name="color-scheme" content="light only" />
+        <meta name="supported-color-schemes" content="light" />
+
         {/* canonical url */}
         {canonical && <link rel="canonical" href={canonical} itemProp="url" />}
 
