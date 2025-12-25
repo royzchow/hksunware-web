@@ -37,18 +37,18 @@ const Home = ({
     const fetchData = async () => {
       const q = query(
         collection(db, "group"),
-        orderBy("priority", "desc")
+        orderBy("priority", "asc")
       );
 
       const groupSnap = await getDocs(q);
 
-      const groupsWithProducts = await Promise.all(
+      const groupsWithItems = await Promise.all(
         groupSnap.docs.map(async (groupDoc) => {
-          const productsSnap = await getDocs(
-            collection(db, "group", groupDoc.id, "products")
+          const itemsSnap = await getDocs(
+            collection(db, "group", groupDoc.id, "items")
           );
 
-          const products = productsSnap.docs.map(p => ({
+          const items = itemsSnap.docs.map(p => ({
             id: p.id,
             ...p.data()
           }));
@@ -56,12 +56,12 @@ const Home = ({
           return {
             id: groupDoc.id,
             ...groupDoc.data(),
-            products, // 👈 products inside group
+            items, // 👈 products inside group
           };
         })
       );
 
-      setItems(groupsWithProducts);
+      setItems(groupsWithItems);
     };
 
     fetchData();
@@ -120,8 +120,8 @@ const Home = ({
       </section>
 
       {/* Home main */}
-      <section className="section">
-        <div className="container">
+      <section className="section pt-8 md:pt-6 lg:pt-12">
+        <div className="container pl-4 md:pl-8 lg:pl-12 pr-4 md:pr-8 lg:pr-12">
           <div className="row items-start">
             <div className="mb-12 lg:mb-0 lg:col-12">
               {/* Featured posts */}
@@ -190,7 +190,7 @@ const Home = ({
               {/* Recent Posts */}
               {recent_posts.enable && (
                 <div className="section pt-0">
-                  <h1>{recent_posts.title}</h1>
+                  <h1 className="mt-0 md:mt-6">{recent_posts.title}</h1>
                   <div style={{ height: 20 }} />
                   <div className="rounded">
                     <div className="row">
